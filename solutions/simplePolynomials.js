@@ -1,3 +1,4 @@
+//https://www.codewars.com/kata/55f89832ac9a66518f000118
 function simplify(poly) {
   const matches = poly.match(/([-+]?\d*[a-z]+)/g);
   return Object.entries(

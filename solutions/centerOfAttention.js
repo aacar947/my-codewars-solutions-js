@@ -1,5 +1,6 @@
 // https://www.codewars.com/kata/58c8c723df10450b21000024
 
+// TODO solve this
 function central_pixels(image, color) {
   console.log(image, color);
   let res = [],
@@ -127,10 +128,3 @@ const ushape = {
   width: 8,
   height: 7,
 };
-
-console.table(central_pixels(pic2, 1));
-//console.table(central_pixels(pic, 2));
-//console.table(central_pixels(pic, 3));
-//console.table(central_pixels(pic, 4));
-//console.table(central_pixels(circle, 2));
-//console.table(central_pixels(ushape, 2));

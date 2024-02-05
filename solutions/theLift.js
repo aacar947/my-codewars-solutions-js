@@ -27,4 +27,50 @@ function theLift(queues, capacity) {
   return visited;
 }
 
-console.log('lift: ', theLift([[], [], [4, 4, 4, 4], [], [2, 2, 2, 2], [], []], 2), [+0, 2, 4, 2, 4, 2, +0]);
+// prettier-ignore
+
+const q1 = [[], [], [4, 4, 4, 4], [], [2, 2, 2, 2], [], []]
+
+const q2 = [
+  [], // G
+  [3], // 1
+  [4], // 2
+  [], // 3
+  [5], // 4
+  [], // 5
+  [], // 6
+];
+
+const q3 = [
+  [], // G
+  [0], // 1
+  [], // 2
+  [], // 3
+  [2], // 4
+  [3], // 5
+  [], // 6
+];
+
+const testValues = [
+  [
+    [q1, 2],
+    [+0, 2, 4, 2, 4, 2, +0],
+  ],
+  [
+    [q2, 5],
+    [0, 1, 2, 3, 4, 5, 0],
+  ],
+  [
+    [q3, 5],
+    [0, 5, 4, 3, 2, 1, 0],
+  ],
+];
+const test = require('../utils/simpleTester.js');
+
+test(
+  (args) => {
+    return theLift(...args);
+  },
+  testValues,
+  { tester: (a, b) => a.toString() === b.toString() }
+);

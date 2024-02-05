@@ -1,3 +1,5 @@
+//https://www.codewars.com/kata/534e01fbbb17187c7e0000c6
+
 function spiralize(n) {
   const dir = [
     [0, 1],
@@ -57,13 +59,3 @@ const testValues = [
 const test = require('../utils/simpleTester.js');
 
 test(spiralize, testValues, { tester: (a, b) => a.toString() === b.toString() });
-//console.log(spiralize(5));
-test(
-  () => true,
-  [
-    [[0, 1, 2, 3], 1],
-    ['asdasd', 'asdasd'],
-    [{ a: 'aasdasdasdasdasdasd' }, { b: 'basdasdasdasdasdasdsa' }],
-    [new Set([1, 2, 3, 4, 5]), new Set([1, 2, 3, 4, 5])],
-  ]
-);

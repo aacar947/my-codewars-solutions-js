@@ -4,7 +4,7 @@ const tableOptions = {
   leftPad: 2,
   columns: [
     { field: 'index', name: 'Index' },
-    { field: 'asserted', name: chalk.magenta('Asserted') },
+    { field: 'arguments', name: chalk.magenta('Arguments') },
     { field: 'returned', name: chalk.cyan('Returned') },
     { field: 'expected', name: chalk.yellow('Expected') },
     { field: 'status', name: chalk.blueBright('Status') },
@@ -20,16 +20,16 @@ module.exports = function test(callBack, inputs, options = {}) {
 
   const entries = Array.isArray(inputs) ? inputs : Object.entries(inputs);
   const results = {};
-  entries.forEach(([asserted, expected], i) => {
-    let returned = callBack(asserted);
+  entries.forEach(([args, expected], i) => {
+    let returned = callBack(args);
     const status = options.tester(returned, expected);
-    const res = { index: i, asserted, returned, expected, status };
+    const res = { index: i, arguments: args, returned, expected, status };
 
     if (options.logDetails) {
       console.log(res);
     }
 
-    res.asserted = toRestirictedString(asserted, MAX_W);
+    res.arguments = toRestirictedString(args, MAX_W);
     res.returned = toRestirictedString(returned, MAX_W);
     res.expected = toRestirictedString(expected, MAX_W);
     res.status = status ? chalk.bgGreen(chalk.white('   \u2713   ')) : chalk.white(chalk.bgRed('   \u2715   '));
@@ -41,6 +41,7 @@ module.exports = function test(callBack, inputs, options = {}) {
 function toRestirictedString(value, maxW = 20) {
   const type = typeof value;
   const wrap = {
+    bigint: (v) => `${v}n`,
     string: (v) => `'${v}'`,
     object: (v) =>
       Array.isArray(value)
@@ -48,6 +49,7 @@ function toRestirictedString(value, maxW = 20) {
         : `${v + (v.includes('...') ? '}' : '')}(${Object.keys(value).length})`,
   };
   let res = type === 'object' ? JSON.stringify(value) : value;
+  if (type === 'number' || type === 'bigint') res = value.toString();
   if (typeof res === 'string' && res.length > maxW + 3) {
     res = res.slice(0, maxW) + '...';
   }
@@ -61,6 +63,7 @@ function useChalkBasedOnType(type, value) {
     string: chalk.yellow,
     object: chalk.cyan,
     boolean: chalk.magentaBright,
+    bigint: chalk.cyanBright,
   };
   return colors[type] ? colors[type](value) : value;
 }
