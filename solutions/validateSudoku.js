@@ -75,8 +75,6 @@ const testValues = [
   [badSudoku2, false],
 ];
 
-console.log(Sudoku(goodSudoku1).isValid());
-
 const test = require('../utils/simpleTester.js');
 
 test(Sudoku, testValues, { tester: (a, b) => a.isValid() === b });
