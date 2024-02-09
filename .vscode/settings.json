@@ -1,0 +1,6 @@
+{
+  "prettier.singleAttributePerLine": false,
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "prettier.singleQuote": true,
+  "editor.formatOnSave": true
+}
