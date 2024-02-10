@@ -39,6 +39,7 @@ module.exports = function test(callBack, inputs, options = {}) {
 };
 
 function toRestirictedString(value, maxW = 20) {
+  if (value === null) return useChalkBasedOnType('null', 'null');
   const type = typeof value;
   const wrap = {
     bigint: (v) => `${v}n`,
@@ -64,6 +65,8 @@ function useChalkBasedOnType(type, value) {
     object: chalk.cyan,
     boolean: chalk.magentaBright,
     bigint: chalk.cyanBright,
+    null: chalk.red,
+    undefined: chalk.magenta,
   };
   return colors[type] ? colors[type](value) : value;
 }
