@@ -19,9 +19,14 @@ module.exports = function test(callBack, inputs, options = {}) {
   }
 
   const entries = Array.isArray(inputs) ? inputs : Object.entries(inputs);
-  const results = {};
+  const results = {},
+    testPerf = [];
+  let testStart = 0;
   entries.forEach(([args, expected], i) => {
+    if (options.logPerformance) testStart = performance.now();
     let returned = callBack(args);
+    if (testStart) testPerf.push(performance.now() - testStart);
+
     const status = options.tester(returned, expected);
     const res = { index: i, arguments: args, returned, expected, status };
 
@@ -36,6 +41,9 @@ module.exports = function test(callBack, inputs, options = {}) {
     results[i] = res;
   });
   console.log(chalkTable(tableOptions, Object.values(results)));
+  if (options.logPerformance) {
+    testPerf.forEach((p, i) => console.log(`Test [${i}] took ${p.toFixed(2)}ms`));
+  }
 };
 
 function toRestirictedString(value, maxW = 20) {
@@ -43,7 +51,7 @@ function toRestirictedString(value, maxW = 20) {
   const type = typeof value;
   const wrap = {
     bigint: (v) => `${v}n`,
-    string: (v) => `'${v}'`,
+    string: (v) => `'${toOneLine(v)}'`,
     object: (v) =>
       Array.isArray(value)
         ? `${v + (v.includes('...') ? ']' : '')}(${value.length})`
@@ -69,4 +77,8 @@ function useChalkBasedOnType(type, value) {
     undefined: chalk.magenta,
   };
   return colors[type] ? colors[type](value) : value;
+}
+
+function toOneLine(str) {
+  return str.replace(/[\n\f\r\t\v]/g, '');
 }

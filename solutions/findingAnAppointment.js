@@ -21,9 +21,7 @@ function getStartTime(sche, dur) {
   let BP = 0;
   for (let i = 0; i < points.length; i++) {
     BP += points[i][1];
-    if (BP === 0 && (points[i + 1] || [endTime])[0] - points[i][0] >= dur) {
-      return formatTime(points[i][0]);
-    }
+    if (BP === 0 && (points[i + 1] || [endTime])[0] - points[i][0] >= dur) return formatTime(points[i][0]);
   }
   return null;
 }
@@ -111,11 +109,11 @@ const schedules = [
   ];
 const test = require('../utils/simpleTester.js'),
   testValues = [
-    [[[...schedules], 60], '12:15'],
-    [[[...schedules], 90], null],
-    [[[...schedules2], 60], '09:00'],
-    [[[...schedules3], 38], '13:37'],
-    [[[...schedules4], 90], '17:15'],
+    [[schedules, 60], '12:15'],
+    [[schedules, 90], null],
+    [[schedules2, 60], '09:00'],
+    [[schedules3, 38], '13:37'],
+    [[schedules4, 90], '17:15'],
   ];
 
 test((args) => getStartTime(...args), testValues);
