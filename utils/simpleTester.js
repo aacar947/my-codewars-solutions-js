@@ -31,7 +31,7 @@ module.exports = function test(callBack, inputs, options = {}) {
     const res = { index: i, arguments: args, returned, expected, status };
 
     if (options.logDetails) {
-      console.log(res);
+      console.dir(res, { depth: null });
     }
 
     res.arguments = toRestirictedString(args, MAX_W);
